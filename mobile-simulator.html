@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fantazmo Art | Mobile Simulator</title>
+    <style>
+      :root {
+        --bg: #08090b;
+        --panel: rgba(8, 11, 15, .88);
+        --line: rgba(86, 217, 255, .18);
+        --line-strong: rgba(86, 217, 255, .38);
+        --cyan: #56d9ff;
+        --text: #f3f7fb;
+        --muted: #8c98aa;
+        --phone-w: 393px;
+        --phone-h: 852px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        color: var(--text);
+        background:
+          linear-gradient(rgba(255,255,255,.032) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.032) 1px, transparent 1px),
+          radial-gradient(circle at 56% 0, rgba(86,217,255,.12), transparent 38%),
+          var(--bg);
+        background-size: 44px 44px, 44px 44px, auto, auto;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+      }
+
+      .simulator {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+      }
+
+      .options {
+        position: relative;
+        z-index: 4;
+        padding: 22px 16px;
+        border-right: 1px solid rgba(86,217,255,.12);
+        background: linear-gradient(180deg, rgba(7, 10, 14, .96), rgba(7, 10, 14, .72));
+        box-shadow: 18px 0 60px rgba(0,0,0,.28);
+      }
+
+      .options h1 {
+        margin: 0 0 18px;
+        color: var(--cyan);
+        font-size: .72rem;
+        line-height: 1;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+      }
+
+      .control-group {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .control-label {
+        color: var(--muted);
+        font-size: .62rem;
+        font-weight: 750;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+      }
+
+      select,
+      button,
+      .page-link {
+        width: 100%;
+        min-height: 38px;
+        padding: 9px 11px;
+        border: 1px solid rgba(169, 198, 255, .16);
+        border-radius: 9px;
+        background: rgba(5, 9, 14, .68);
+        color: #d8e2ef;
+        font: inherit;
+        font-size: .78rem;
+      }
+
+      button,
+      .page-link {
+        cursor: pointer;
+        text-align: left;
+        text-decoration: none;
+      }
+
+      button:hover,
+      .page-link:hover,
+      .page-link.active {
+        border-color: var(--line-strong);
+        color: #fff;
+        box-shadow: 0 0 14px rgba(86,217,255,.14);
+      }
+
+      .viewport {
+        min-width: 0;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        overflow: hidden;
+      }
+
+      .phone-shell {
+        --outer-radius: 46px;
+        position: relative;
+        width: var(--phone-w);
+        height: var(--phone-h);
+        padding: 12px;
+        border: 10px solid #030405;
+        border-radius: var(--outer-radius);
+        background: #050608;
+        box-shadow:
+          0 34px 88px rgba(0,0,0,.68),
+          inset 0 0 0 1px rgba(255,255,255,.08);
+        transform-origin: center;
+        transform: scale(var(--phone-scale, 1));
+      }
+
+      .phone-shell::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 5;
+        width: 118px;
+        height: 24px;
+        transform: translateX(-50%);
+        border-radius: 0 0 17px 17px;
+        background: #030405;
+      }
+
+      .screen {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border: 1px solid rgba(86,217,255,.24);
+        border-radius: 34px;
+        background: #050b0f;
+      }
+
+      iframe {
+        width: calc(100% + 18px);
+        height: 100%;
+        display: block;
+        border: 0;
+        background: #050b0f;
+      }
+
+      @media (max-width: 760px) {
+        .simulator {
+          grid-template-columns: 1fr;
+        }
+
+        .options {
+          position: fixed;
+          left: 12px;
+          top: 12px;
+          width: 178px;
+          padding: 12px;
+          border: 1px solid rgba(86,217,255,.14);
+          border-radius: 12px;
+        }
+
+        .options h1 {
+          margin-bottom: 10px;
+        }
+
+        .control-group {
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="simulator" aria-label="Mobile website simulator">
+      <aside class="options" aria-label="Simulator options">
+        <h1>Mobile Simulator</h1>
+
+        <div class="control-group">
+          <label class="control-label" for="device">Device</label>
+          <select id="device">
+            <option value="393x852">iPhone 15</option>
+            <option value="390x844">iPhone 12 / 13</option>
+            <option value="375x812">iPhone X / 11 Pro</option>
+            <option value="360x800">Android Compact</option>
+            <option value="412x915">Android Large</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">Orientation</span>
+          <button id="rotate" type="button">Rotate to landscape</button>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">Page</span>
+          <a class="page-link active" href="index.html" target="phone">Home</a>
+          <a class="page-link" href="original.html" target="phone">Original Work</a>
+          <a class="page-link" href="ai.html" target="phone">AI Creative</a>
+        </div>
+      </aside>
+
+      <section class="viewport" aria-label="Phone preview">
+        <div class="phone-shell" id="phone">
+          <div class="screen">
+            <iframe name="phone" src="index.html" title="Fantazmo Art mobile preview"></iframe>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const phone = document.querySelector('#phone');
+      const viewport = document.querySelector('.viewport');
+      const deviceSelect = document.querySelector('#device');
+      const rotateButton = document.querySelector('#rotate');
+      const pageLinks = document.querySelectorAll('.page-link');
+
+      let isLandscape = false;
+
+      const readDeviceSize = () => {
+        const [width, height] = deviceSelect.value.split('x').map(Number);
+        return isLandscape ? { width: height, height: width } : { width, height };
+      };
+
+      const fitPhone = () => {
+        const { width, height } = readDeviceSize();
+        const availableWidth = viewport.clientWidth - 48;
+        const availableHeight = viewport.clientHeight - 48;
+        const scale = Math.min(1, availableWidth / width, availableHeight / height);
+
+        phone.style.setProperty('--phone-w', `${width}px`);
+        phone.style.setProperty('--phone-h', `${height}px`);
+        phone.style.setProperty('--phone-scale', scale.toFixed(3));
+        rotateButton.textContent = isLandscape ? 'Rotate to portrait' : 'Rotate to landscape';
+      };
+
+      deviceSelect.addEventListener('change', fitPhone);
+      rotateButton.addEventListener('click', () => {
+        isLandscape = !isLandscape;
+        fitPhone();
+      });
+
+      pageLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          pageLinks.forEach((item) => item.classList.remove('active'));
+          link.classList.add('active');
+        });
+      });
+
+      window.addEventListener('resize', fitPhone);
+      fitPhone();
+    </script>
+  </body>
+</html>
