@@ -2166,7 +2166,7 @@ main > .page-intro:not(:has(h1)) > .eyebrow { font-size: 1.12rem; }
     --home-shell-gutter: 30px;
     --window-padding-y: 26px;
     --window-padding-x: 24px;
-    padding-bottom: calc(var(--bar-height) + 34px);
+    padding-bottom: calc(var(--bar-height) + 14px);
   }
   .original-page,
   .ai-page {
@@ -2200,8 +2200,8 @@ main > .page-intro:not(:has(h1)) > .eyebrow { font-size: 1.12rem; }
   }
   .contact-dock {
     bottom: 0;
-    min-height: calc(var(--bar-height) + max(28px, env(safe-area-inset-bottom)));
-    padding-bottom: max(28px, env(safe-area-inset-bottom));
+    min-height: calc(var(--bar-height) + max(8px, env(safe-area-inset-bottom)));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
   }
   .contact-dock-brand {
     display: none;
@@ -2397,8 +2397,8 @@ main > .page-intro:not(:has(h1)) > .eyebrow { font-size: 1.12rem; }
 @media (max-width: 560px) and (orientation: portrait) {
   .site-header {
     width: 100%;
-    min-height: 124px;
-    padding: 26px 12px 10px;
+    min-height: 117px;
+    padding: 19px 12px 10px;
     flex-direction: column;
     justify-content: flex-start;
     gap: 13px;
